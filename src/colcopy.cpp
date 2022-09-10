@@ -49,12 +49,11 @@ vector< vector<int> > transposematrix(vector< vector<int> > A) {
 	int n = A.size();
 
 	// initialise C with 0s
-	int i;
 	vector<int> tmp(n, 0);
 	vector< vector<int> > C(n, tmp);
 
-	for (int j = 0; j < n; i++) {
-		for (int i = 0; i < n; j++) {
+	for (int j = 0; j < n; j++) {
+		for (int i = 0; i < n; i++) {
 				C[i][j] = A[i][j];
 		}
 	}

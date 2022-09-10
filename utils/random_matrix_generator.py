@@ -73,7 +73,7 @@ def main():
     outpath = args.dump
     #Create dense matrix
     matrixA = createRandomMatrix(n)
-    matrixB = createRandomMatrix(n)
+    # matrixB = createRandomMatrix(n)
     #print(matrixA)
     #Convert to sparse matrix by replacing value below threshold to 0
     if (args.sparsity):
@@ -91,7 +91,7 @@ def main():
         # flatB[indicesB] = 0
         #Reshape it back to square matrix    
         flatA = flatA.reshape(n,n)
-        flatB = flatB.reshape(n,n)
+        # flatB = flatB.reshape(n,n)
         #print(flatA)
         matrixA_csr = sparse.csr_matrix(flatA)
         #print(matrixA_csr)

@@ -18,65 +18,55 @@ void parsec_roi_end()
 
 
 struct Result {
-	vector< vector<int> > A;
+	vector <int> A;
+	vector <int> B;
 };
 
 Result read(string filename) {
-	vector< vector<int> > A;
+	vector<int> A, B;
 	Result ab;
 	string line;
 	ifstream infile;
 	infile.open (filename.c_str());
 
-	int i = 0;
 	while (getline(infile, line) && !line.empty()) {
 		istringstream iss(line);
 		A.resize(A.size() + 1);
 		int a, j = 0;
 		while (iss >> a) {
-			A[i].push_back(a);
+			A.push_back(a);
 			j++;
 		}
-		i++;
+	}
+
+	while (getline(infile, line)) {
+		istringstream iss(line);
+		B.resize(B.size() + 1);
+		int a;
+		int j = 0;
+		while (iss >> a) {
+			B.push_back(a);
+			j++;
+		}
 	}
 
 	infile.close();
 	ab.A = A;
+	ab.B = B;
 	return ab;
 }
 
-int * scatter(vector <int> A) {
+vector <int> scatter(vector <int> A, vector <int> B) {
 	int n = A.size();
+	int index = B.size();
 
 	// initialise C with 0s
-  int index[5] = {1,2,3,4,5};
-  int indexlen = sizeof(index) / sizeof(int);
-	int newlen = indexlen;
-	int C[newlen] = {};
+	vector<int> C(index, 0);
 
-	for (int i = 0; i < indexlen; i++) {
-		for (int j = 0; j < n; j++) {
-				if (index[i] == j) {
-          C[i] = A[j];
-          break;
-        }
+	for (int i = 0; i < index; i++) {
+			C[i] = A[i];
 		}
-	}
 	return C;
-}
-
-void printMatrix(vector< vector<int> > matrix) {
-	vector< vector<int> >::iterator it;
-	vector<int>::iterator inner;
-	for (it=matrix.begin(); it != matrix.end(); it++) {
-		for (inner = it->begin(); inner != it->end(); inner++) {
-			cout << *inner;
-			if(inner+1 != it->end()) {
-				cout << "\t";
-			}
-		}
-		cout << endl;
-	}
 }
 
 int main (int argc, char* argv[]) {
@@ -88,7 +78,7 @@ int main (int argc, char* argv[]) {
 	}
 	Result result = read (filename);
     parsec_roi_begin();
-	int *C = scatter(result.A);
+	vector <int> C  = scatter(result.A, result.B);
     parsec_roi_end();
 	//printMatrix(C);
 	return 0;
